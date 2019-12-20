@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 app.get('/', (req, res) => {
-  return 'Hello World';
+  res.send('Hello World');
   // console.log('here');
   // // using Twilio SendGrid's v3 Node.js Library
   // // https://github.com/sendgrid/sendgrid-nodejs
