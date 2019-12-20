@@ -20,6 +20,8 @@ app.get('/', (req, res) => {
   // sgMail.send(msg);
 });
 
-app.listen(8000, () => {
-  console.log('Example app listening on port 8000!');
+var port = process.env.PORT || 8000;
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`);
 });
