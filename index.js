@@ -1,10 +1,35 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
+const axios = require('axios');
+const bodyParser = require('body-parser');
 
 dotenv.config();
-app.get('/', (req, res) => {
-  res.send('Hello World');
+
+app.use(bodyParser.json());
+
+app.post('/leads/new', (req, res) => {
+  let email = req.body.email;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`
+    }
+  };
+  axios
+    .put(
+      'https://api.sendgrid.com/v3/marketing/contacts',
+      {
+        contacts: [{ email }]
+      },
+      config
+    )
+    .then(response => {
+      res.send(response);
+    })
+    .catch(err => {
+      res.send(err);
+    });
   // console.log('here');
   // // using Twilio SendGrid's v3 Node.js Library
   // // https://github.com/sendgrid/sendgrid-nodejs
