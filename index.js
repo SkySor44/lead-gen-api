@@ -3,10 +3,12 @@ const app = express();
 const dotenv = require('dotenv');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 
 dotenv.config();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.post('/leads/new', (req, res) => {
   let email = req.body.email;
