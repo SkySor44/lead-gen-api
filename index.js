@@ -27,11 +27,32 @@ app.post('/leads/new', (req, res) => {
       config
     )
     .then(response => {
-      res.send(response);
+      let reqBody = {
+        personalizations: [
+          {
+            to: [{ email: process.env.PHOTOGRAPHER_EMAIL }],
+            dynamic_template_data: {
+              email: email
+            }
+          }
+        ],
+        from: { email: process.env.PHOTOGRAPHER_EMAIL },
+        template_id: process.env.TEMPLATE_ID
+      };
+
+      axios
+        .post('https://api.sendgrid.com/v3/mail/send', reqBody, config)
+        .then(photographerResponse => {
+          res.send(response);
+        })
+        .catch(photographerErr => {
+          res.send(photographerErr);
+        });
     })
     .catch(err => {
       res.send(err);
     });
+
   // console.log('here');
   // // using Twilio SendGrid's v3 Node.js Library
   // // https://github.com/sendgrid/sendgrid-nodejs
